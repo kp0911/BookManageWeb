@@ -47,6 +47,15 @@ public class BookService {
         return book;
     }
 
+    public List<Book> getBookByTitle(String title){
+        List<Book> book = bookMapper.findByTitle(title);
+        if (book == null) {
+            // 기존에 만든 BookNotFoundException이 있다면 그걸 써도 됩니다.
+            throw new IllegalArgumentException("해당 번호의 도서는 존재하지 않습니다.");
+        }
+        return book;
+    }
+
     public Book checkOutBook(String bookId, String userId){
         Book targetBook = bookMapper.findById(bookId);
         if (!targetBook.isRentable()) {

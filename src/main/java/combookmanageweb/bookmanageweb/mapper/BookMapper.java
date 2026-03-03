@@ -27,4 +27,7 @@ public interface BookMapper {
     @Insert("INSERT INTO BOOK (id, category, title, rentable, rented, returnDate, userId) " +
             "VALUES (#{id}, #{category}, #{title}, #{rentable}, #{rented}, #{returnDate}, #{userId})")
     void insertBook(Book book);
+
+    @Select("SELECT  * FROM  BOOK WHERE title LIKE CONCAT('%', #{title}, '%')")
+    List<Book> findByTitle(String title);
 }

@@ -28,6 +28,9 @@ public class BookController {
         return bookService.getBookById(id);
     }
 
+    @GetMapping("/title/{title}")
+    public List<Book> getBookByTitle(@PathVariable String title) {return bookService.getBookByTitle(title);}
+
     @PostMapping("/{id}/checkout")
     public Book checkout(@PathVariable String id, @RequestParam String userId) {
         return bookService.checkOutBook(id, userId);
