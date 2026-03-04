@@ -5,7 +5,8 @@ DROP TABLE IF EXISTS USERS;
 CREATE TABLE USERS (
                        id VARCHAR(50) PRIMARY KEY,
                        name VARCHAR(50) NOT NULL,
-                       grade VARCHAR(20) NOT NULL
+                       password VARCHAR(50) NOT NULL,
+                       role VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE BOOK (

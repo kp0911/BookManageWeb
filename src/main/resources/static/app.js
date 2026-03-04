@@ -15,7 +15,7 @@ async function loadUsers() {
             row.innerHTML = `
                 <td>${user.id}</td>
                 <td>${user.name}</td>
-                <td>${user.grade}</td>
+                <td>${user.role}</td>
             `;
             userTableBody.appendChild(row);
         });
@@ -26,14 +26,14 @@ async function loadUsers() {
 
 async function registerUser() {
     const name = document.getElementById('userName').value;
-    const grade = document.getElementById('userGrade').value;
+    const role = document.getElementById('userRole').value;
     if (!name) {
         alert('이름을 입력해주세요.');
         return;
     }
 
     try {
-        const response = await fetch(`/api/users/register?name=${encodeURIComponent(name)}&grade=${encodeURIComponent(grade)}`, {
+        const response = await fetch(`/api/users/register?name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}`, {
             method: 'POST'
         });
         if (response.ok) {

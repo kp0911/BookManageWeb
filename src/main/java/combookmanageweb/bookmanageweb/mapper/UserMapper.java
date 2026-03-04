@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
-
 @Mapper
 public interface UserMapper {
 
@@ -17,8 +16,8 @@ public interface UserMapper {
     @Select("SELECT * FROM USERS WHERE id = #{id}")
     User findById(String id);
 
-    @Insert("INSERT INTO USERS (id, name, grade) " +
-            "VALUES (#{id}, #{name}, #{grade})")
+    @Insert("INSERT INTO USERS (id, password, name, role) " +
+            "VALUES (#{id}, #{password}, #{name}, #{role})")
     void insertUser(User User);
 
     @Select("SELECT COUNT(*) FROM USERS")

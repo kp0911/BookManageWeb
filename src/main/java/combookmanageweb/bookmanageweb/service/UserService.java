@@ -17,7 +17,7 @@ public class UserService {
     // 프로그램 시작 시 초기 관리자 U1 세팅
     @PostConstruct
     public void initUser() {
-        userMapper.insertUser(new User("U1", "관리자", "vip"));
+        userMapper.insertUser(new User("U1", "admin", "관리자", "admin"));
         System.out.println(">> 초기 관리자(U1) 세팅 완료!");
     }
 
@@ -32,17 +32,21 @@ public class UserService {
 
 
     // 회원 가입 로직
-    public User registerUser(String name, String grade) {
-        if (!grade.equals("vip") && !grade.equals("normal")) {
-            throw new IllegalArgumentException("등급은 'normal' 또는 'vip'만 가능합니다.");
-        }
+    public User registerUser(String id, String password, String name) {
 
         int userCount = userMapper.countUsers();
-        String newId = "U" + (userCount + 1);
 
-        User newUser = new User(newId, name, grade);
+        User newUser = new User(id, name, password, "normal");
         userMapper.insertUser(newUser);
 
         return newUser;
+    }
+
+    public User login(String id, String password) {
+        User user = userMapper.findById(id);
+        if (user == null || !user.getPassword().equals(password)) {
+            throw new IllegalArgumentException("아이디 또는 비밀번호가 일치하지 않습니다.");
+        }
+        return user;
     }
 }

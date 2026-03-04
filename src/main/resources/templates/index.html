@@ -1,15 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>도서 관리 시스템</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>도서 관리 시스템</h1>
+            <div class="auth-buttons" style="margin-top: 10px; text-align: right;">
+                <!-- 로그인 안 했을 때 -->
+                <a th:if="${user == null}" href="/login" style="color: white; text-decoration: none; margin-right: 10px; font-weight: bold;">로그인</a>
+
+                <!-- 로그인 했을 때 -->
+                <div th:if="${user != null}" style="display: inline;">
+                    <span style="color: white; margin-right: 10px;" th:text="|${user.name}님 환영합니다.|"></span>
+                    <form action="/api/users/logout" method="post" style="display: inline;">
+                        <button type="submit" style="padding: 5px 10px; background-color: #dc3545; font-size: 0.9em;">로그아웃</button>
+                    </form>
+                </div>
+            </div>
         </header>
 
         <main>
@@ -69,6 +81,6 @@
             </section>
         </main>
     </div>
-    <script src="app.js"></script>
+    <script src="/app.js"></script>
 </body>
 </html>
