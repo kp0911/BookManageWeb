@@ -28,6 +28,11 @@ public interface BookMapper {
             "VALUES (#{id}, #{category}, #{title}, #{rentable}, #{rented}, #{returnDate}, #{userId})")
     void insertBook(Book book);
 
+    //5. 제목으로 책 찾기
     @Select("SELECT  * FROM  BOOK WHERE title LIKE CONCAT('%', #{title}, '%')")
     List<Book> findByTitle(String title);
+
+    //연체된 책 가져오기 
+    @Select("SELECT COUNT(*) FROM  BOOK WHERE userId = #{userId} AND returnDate < CURRENT_DATE")
+    int countOverdueBooks(String userId);
 }

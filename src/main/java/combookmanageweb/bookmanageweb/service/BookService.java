@@ -71,6 +71,11 @@ public class BookService {
             throw new IllegalArgumentException("해당 사용자는 존재하지 않습니다.");
         }
 
+        int overdueCount = bookMapper.countOverdueBooks(userId);
+        if (overdueCount > 0) {
+            throw new IllegalArgumentException("현재 연체 중인 도서가 " + overdueCount + "권 있습니다. 모두 반납하기 전까지 새로운 대출이 불가합니다.");
+        }
+
         targetBook.setRented(true);
         targetBook.setReturnDate(LocalDate.now().plusDays(targetUser.getRentalDays()));
         //System.out.println("날짜: "+LocalDate.now().plusDays(targetUser.getRentalDays()));
