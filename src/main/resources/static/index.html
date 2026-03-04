@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 관리 시스템</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>도서 관리 시스템</h1>
+        </header>
+
+        <main>
+            <!-- User Management Section -->
+            <section id="user-section">
+                <h2>회원 관리</h2>
+                <div class="form-group">
+                    <input type="text" id="userName" placeholder="이름">
+                    <select id="userGrade">
+                        <option value="normal">일반</option>
+                        <option value="vip">VIP</option>
+                    </select>
+                    <button onclick="registerUser()">회원 등록</button>
+                </div>
+                <h3>회원 목록</h3>
+                <table id="userTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>이름</th>
+                            <th>등급</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- User rows will be populated here -->
+                    </tbody>
+                </table>
+            </section>
+
+            <hr>
+
+            <!-- Book Management Section -->
+            <section id="book-section">
+                <h2>도서 관리</h2>
+                <div class="form-group">
+                    <input type="text" id="searchTitle" placeholder="도서 제목 검색">
+                    <button onclick="searchBooks()">검색</button>
+                    <button onclick="loadBooks()">전체 목록 새로고침</button>
+                </div>
+                <h3>도서 목록</h3>
+                <table id="bookTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>카테고리</th>
+                            <th>제목</th>
+                            <th>상태</th>
+                            <th>반납 예정일</th>
+                            <th>대출자 ID</th>
+                            <th>관리</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Book rows will be populated here -->
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
