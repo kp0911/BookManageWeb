@@ -81,16 +81,24 @@ function renderBooks(books) {
         const row = document.createElement('tr');
         const statusClass = book.rented ? 'status-rented' : 'status-available';
         const statusText = book.rented ? '대출 중' : '대출 가능';
-        const returnDate = book.returnDate ? book.returnDate : '-';
-        const userId = book.userId ? book.userId : '-';
 
-        row.innerHTML = `
+        let rowHTML = `
             <td>${book.id}</td>
             <td>${book.category}</td>
             <td>${book.title}</td>
             <td class="${statusClass}">${statusText}</td>
-            <td>${returnDate}</td>
-            <td>${userId}</td>
+        `;
+
+        if (typeof currentUserRole !== 'undefined' && currentUserRole === 'admin') {
+            const returnDate = book.returnDate ? book.returnDate : '-';
+            const userId = book.userId ? book.userId : '-';
+            rowHTML += `
+                <td>${returnDate}</td>
+                <td>${userId}</td>
+            `;
+        }
+
+        rowHTML += `
             <td>
                 ${!book.rented ? 
                     `<button class="action-btn rent-btn" onclick="rentBook('${book.id}')">대출</button>` : 
@@ -98,6 +106,8 @@ function renderBooks(books) {
                 }
             </td>
         `;
+
+        row.innerHTML = rowHTML;
         bookTableBody.appendChild(row);
     });
 }

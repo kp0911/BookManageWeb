@@ -30,7 +30,7 @@
                 <h2>회원 관리</h2>
                 <div class="form-group">
                     <input type="text" id="userName" placeholder="이름">
-                    <select id="useRole">
+                    <select id="userRole">
                         <option value="normal">일반</option>
                         <option value="vip">VIP</option>
                     </select>
@@ -69,8 +69,8 @@
                             <th>카테고리</th>
                             <th>제목</th>
                             <th>상태</th>
-                            <th>반납 예정일</th>
-                            <th>대출자 ID</th>
+                            <th th:if="${user != null && user.role == 'admin'}">반납 예정일</th>
+                            <th th:if="${user != null && user.role == 'admin'}">대출자 ID</th>
                             <th>관리</th>
                         </tr>
                     </thead>
@@ -81,6 +81,9 @@
             </section>
         </main>
     </div>
+    <script th:inline="javascript">
+        var currentUserRole = /*[[${user != null ? user.role : 'guest'}]]*/ 'guest';
+    </script>
     <script src="/app.js"></script>
 </body>
 </html>

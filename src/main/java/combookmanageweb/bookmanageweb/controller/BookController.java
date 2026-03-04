@@ -1,7 +1,10 @@
 package combookmanageweb.bookmanageweb.controller; // 본인 패키지에 맞게 수정
 
 import combookmanageweb.bookmanageweb.dto.Book;
+import combookmanageweb.bookmanageweb.dto.User;
 import combookmanageweb.bookmanageweb.service.BookService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +20,16 @@ public class BookController {
     // 1. 전체 도서 조회 API (기존 1번 메뉴)
     // 브라우저에서 http://localhost:8080/api/books 접속 시 실행
     @GetMapping
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session != null){
+            User loginUser = (User) session.getAttribute("loginUser");
+            if(loginUser.getRole().equalsIgnoreCase("admin")){
+                return bookService.getAllBooks();
+            }else{
+                return bookService.getAvailableBooks();
+            }
+        }
         return bookService.getAllBooks();
     }
 

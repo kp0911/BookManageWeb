@@ -37,6 +37,10 @@ public class BookService {
         return bookMapper.findAll();
     }
 
+    public List<Book> getAvailableBooks() {
+        return bookMapper.getAvailableBooks();
+    }
+
     // 3. 단건 도서 검색 및 가드 클로즈 (기존 getBookOrThrow 역할)
     public Book getBookById(String id) {
         Book book = bookMapper.findById(id);
