@@ -49,4 +49,14 @@ public class UserService {
         }
         return user;
     }
-}
+
+    public void updateUserRole(String id, String role){
+        User user = userMapper.findById(id);
+        if (user == null) {
+            throw new IllegalArgumentException("해당 사용자는 존재 하지 않습니다.");
+        } else if (!(role.equals("vip") || role.equals("normal"))) {
+            throw new IllegalArgumentException("허용된 권한이 아닙니다.");
+        }
+        userMapper.updateUserRole(id, role);
+    }
+} 

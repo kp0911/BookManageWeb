@@ -24,13 +24,11 @@ public class BookController {
         HttpSession session = request.getSession(false);
         if(session != null){
             User loginUser = (User) session.getAttribute("loginUser");
-            if(loginUser.getRole().equalsIgnoreCase("admin")){
+            if(loginUser != null && "admin".equalsIgnoreCase(loginUser.getRole())){
                 return bookService.getAllBooks();
-            }else{
-                return bookService.getAvailableBooks();
             }
         }
-        return bookService.getAllBooks();
+        return bookService.getAvailableBooks();
     }
 
     // 2. 특정 도서 검색 API (기존 2번 메뉴)

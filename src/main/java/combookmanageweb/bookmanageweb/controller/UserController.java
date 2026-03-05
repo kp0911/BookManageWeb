@@ -5,6 +5,7 @@ import combookmanageweb.bookmanageweb.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +34,10 @@ public class UserController {
     }
 
     // 3. 회원 가입 (JSON 반환)
-    // 예: POST http://localhost:8080/api/users/register?name=홍길동&role=normal
     @PostMapping("/register")
-    @ResponseBody // 이 메서드는 View가 아닌 JSON 데이터를 반환합니다.
-    public User registerUser(@RequestParam String id, @RequestParam String name, @RequestParam String role) {
-        return userService.registerUser(id, name, role);
+    @ResponseBody
+    public User registerUser(@RequestParam String id, @RequestParam String name, @RequestParam String password) {
+        return userService.registerUser(id, password, name);
     }
     
     // 4. 로그인 처리 (페이지 리다이렉트)
@@ -69,5 +69,11 @@ public class UserController {
         }
 
         return "redirect:/";
+    }
+
+    @PatchMapping("/{id}/role")
+    public ResponseEntity<String> upgradeUserRole(@PathVariable String id, @RequestParam String newRole) {
+        userService.updateUserRole(id, newRole);
+        return ResponseEntity.ok("등급 변경 완료");
     }
 }

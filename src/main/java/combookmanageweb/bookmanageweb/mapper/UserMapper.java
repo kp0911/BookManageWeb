@@ -22,4 +22,7 @@ public interface UserMapper {
 
     @Select("SELECT COUNT(*) FROM USERS")
     int countUsers();
+
+    @Update("UPDATE USERS SET role = #{role} WHERE id = #{id}")
+    void updateUserRole(String id, String role);
 }

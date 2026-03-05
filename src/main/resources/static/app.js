@@ -12,11 +12,26 @@ async function loadUsers() {
         userTableBody.innerHTML = '';
         users.forEach(user => {
             const row = document.createElement('tr');
-            row.innerHTML = `
+            
+            let rowHTML = `
                 <td>${user.id}</td>
                 <td>${user.name}</td>
                 <td>${user.role}</td>
             `;
+
+            if (typeof currentUserRole !== 'undefined' && currentUserRole === 'admin') {
+                rowHTML += `
+                    <td>
+                        <select id="role-${user.id}">
+                            <option value="normal" ${user.role === 'normal' ? 'selected' : ''}>일반</option>
+                            <option value="vip" ${user.role === 'vip' ? 'selected' : ''}>VIP</option>
+                        </select>
+                        <button onclick="changeUserRole('${user.id}')">변경</button>
+                    </td>
+                `;
+            }
+
+            row.innerHTML = rowHTML;
             userTableBody.appendChild(row);
         });
     } catch (error) {
@@ -24,27 +39,26 @@ async function loadUsers() {
     }
 }
 
-async function registerUser() {
-    const name = document.getElementById('userName').value;
-    const role = document.getElementById('userRole').value;
-    if (!name) {
-        alert('이름을 입력해주세요.');
+async function changeUserRole(userId) {
+    const newRole = document.getElementById(`role-${userId}`).value;
+    if (!confirm(`사용자 ${userId}의 등급을 ${newRole}(으)로 변경하시겠습니까?`)) {
         return;
     }
 
     try {
-        const response = await fetch(`/api/users/register?name=${encodeURIComponent(name)}&role=${encodeURIComponent(role)}`, {
-            method: 'POST'
+        const response = await fetch(`/api/users/${userId}/role?newRole=${encodeURIComponent(newRole)}`, {
+            method: 'PATCH'
         });
         if (response.ok) {
-            alert('회원 등록 성공!');
+            alert('등급 변경 성공!');
             loadUsers();
-            document.getElementById('userName').value = '';
         } else {
-            alert('회원 등록 실패');
+            const errorText = await response.text();
+            alert('등급 변경 실패: ' + errorText);
         }
     } catch (error) {
-        console.error('Error registering user:', error);
+        console.error('Error changing user role:', error);
+        alert('등급 변경 중 오류가 발생했습니다.');
     }
 }
 

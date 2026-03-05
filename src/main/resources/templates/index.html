@@ -28,14 +28,7 @@
             <!-- User Management Section -->
             <section id="user-section">
                 <h2>회원 관리</h2>
-                <div class="form-group">
-                    <input type="text" id="userName" placeholder="이름">
-                    <select id="userRole">
-                        <option value="normal">일반</option>
-                        <option value="vip">VIP</option>
-                    </select>
-                    <button onclick="registerUser()">회원 등록</button>
-                </div>
+                <!-- 회원 등록 폼 제거됨 -->
                 <h3>회원 목록</h3>
                 <table id="userTable">
                     <thead>
@@ -43,6 +36,7 @@
                             <th>ID</th>
                             <th>이름</th>
                             <th>등급</th>
+                            <th th:if="${user != null && user.role == 'admin'}">관리</th>
                         </tr>
                     </thead>
                     <tbody>
