@@ -77,12 +77,16 @@ async function loadBooks() {
 
 async function searchBooks() {
     const title = document.getElementById('searchTitle').value;
+    // 체크박스 상태 확인
+    const isFit = document.getElementById('searchExact').checked;
+
     if (!title) {
         loadBooks();
         return;
     }
     try {
-        const response = await fetch(`/api/books/title/${encodeURIComponent(title)}`);
+        // isFit 파라미터 추가
+        const response = await fetch(`/api/books/title?title=${encodeURIComponent(title)}&isFit=${isFit}`);
         const books = await response.json();
         renderBooks(books);
     } catch (error) {
@@ -130,8 +134,6 @@ function renderBooks(books) {
 }
 
 async function loadRentedBooks() {
-    //if (!currentUserId) return;
-    console.log("123");
     try {
         const response = await fetch(`/api/books/show`);
         const books = await response.json();

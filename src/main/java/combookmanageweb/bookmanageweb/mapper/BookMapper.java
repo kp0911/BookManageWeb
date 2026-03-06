@@ -40,6 +40,10 @@ public interface BookMapper {
     @Select("SELECT  * FROM  BOOK WHERE title LIKE CONCAT('%', #{title}, '%')")
     List<Book> findByTitle(String title);
 
+    // 제목 완전 일치 하는 도서 조회
+    @Select("SELECT * FROM BOOK WHERE title = #{title}")
+    List<Book> findByTitleFit(String title);
+
     //연체된 책 가져오기 
     @Select("SELECT COUNT(*) FROM  BOOK WHERE userId = #{userId} AND returnDate < CURRENT_DATE")
     int countOverdueBooks(String userId);

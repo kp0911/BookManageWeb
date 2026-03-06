@@ -52,8 +52,10 @@ public class BookController {
     }
     
     // 도서 제목으로 검색
-    @GetMapping("/title/{title}")
-    public List<Book> getBookByTitle(@PathVariable String title) {return bookService.getBookByTitle(title);}
+    @GetMapping("/title")
+    public List<Book> getBookByTitle(@RequestParam String title, @RequestParam(required = false) Boolean isFit) {
+        return bookService.getBookByTitle(title, isFit);
+    }
 
     @PostMapping("/{id}/checkout")
     public Book checkout(@PathVariable String id, HttpSession session) {
