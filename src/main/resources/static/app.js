@@ -112,26 +112,26 @@ function renderBooks(books) {
             `;
         }
 
-        rowHTML += `
-            <td>
-                ${!book.rented ? 
-                    `<button class="action-btn rent-btn" onclick="rentBook('${book.id}')">대출</button>` : 
+        if(typeof currentUserRole === 'admin' || currentUserRole === 'vip' || currentUserRole === 'normal'){
+            rowHTML += `
+                <td>
+                    ${!book.rented ?
+                    `<button class="action-btn rent-btn" onclick="rentBook('${book.id}')">대출</button>` :
                     `<button class="action-btn return-btn" onclick="returnBook('${book.id}')">반납</button>`
                 }
-            </td>
+                </td>
         `;
-
+        }
         row.innerHTML = rowHTML;
         bookTableBody.appendChild(row);
     });
 }
 
 async function rentBook(bookId) {
-    const userId = prompt('대출할 회원 ID를 입력하세요:');
-    if (!userId) return;
+    // userId는 서버 세션에서 가져오므로 클라이언트에서 보낼 필요가 없습니다.
 
     try {
-        const response = await fetch(`/api/books/${bookId}/checkout?userId=${encodeURIComponent(userId)}`, {
+        const response = await fetch(`/api/books/${bookId}/checkout`, {
             method: 'POST'
         });
         if (response.ok) {
@@ -148,11 +148,8 @@ async function rentBook(bookId) {
 }
 
 async function returnBook(bookId) {
-    const userId = prompt('반납할 회원 ID를 입력하세요:');
-    if (!userId) return;
-
     try {
-        const response = await fetch(`/api/books/${bookId}/checkin?userId=${encodeURIComponent(userId)}`, {
+        const response = await fetch(`/api/books/${bookId}/checkin`, {
             method: 'POST'
         });
         if (response.ok) {

@@ -42,12 +42,27 @@ public class BookController {
     public List<Book> getBookByTitle(@PathVariable String title) {return bookService.getBookByTitle(title);}
 
     @PostMapping("/{id}/checkout")
-    public Book checkout(@PathVariable String id, @RequestParam String userId) {
+    public Book checkout(@PathVariable String id, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        //로그인 여부 확인
+        if (loginUser == null) {
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+        }
+
+        String userId = loginUser.getId();
         return bookService.checkOutBook(id, userId);
     }
     // 예: POST http://localhost:8080/api/books/B1/checkin?userId=U1
     @PostMapping("/{id}/checkin")
-    public Book checkin(@PathVariable String id, @RequestParam String userId) {
+    public Book checkin(@PathVariable String id, HttpSession session) {
+        User loginUser = (User) session.getAttribute("loginUser");
+
+        //로그인 여부 확인
+        if (loginUser == null) {
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+        }
+        String userId = loginUser.getId();
         return bookService.checkInBook(id, userId);
     }
 }

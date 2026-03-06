@@ -26,7 +26,7 @@
 
         <main>
             <!-- User Management Section -->
-            <section id="user-section">
+            <section th:if="${user != null && user.role == 'admin'}" id="user-section">
                 <h2>회원 관리</h2>
                 <!-- 회원 등록 폼 제거됨 -->
                 <h3>회원 목록</h3>
@@ -36,7 +36,7 @@
                             <th>ID</th>
                             <th>이름</th>
                             <th>등급</th>
-                            <th th:if="${user != null && user.role == 'admin'}">관리</th>
+                            <th>관리</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,7 +65,7 @@
                             <th>상태</th>
                             <th th:if="${user != null && user.role == 'admin'}">반납 예정일</th>
                             <th th:if="${user != null && user.role == 'admin'}">대출자 ID</th>
-                            <th>관리</th>
+                            <th th:if="${user != null}">관리</th>
                         </tr>
                     </thead>
                     <tbody>

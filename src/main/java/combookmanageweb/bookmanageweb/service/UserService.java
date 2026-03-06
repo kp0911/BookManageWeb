@@ -18,6 +18,7 @@ public class UserService {
     @PostConstruct
     public void initUser() {
         userMapper.insertUser(new User("U1", "admin", "관리자", "admin"));
+        userMapper.insertUser(new User("qwe", "qwe", "qwe", "normal"));
         System.out.println(">> 초기 관리자(U1) 세팅 완료!");
     }
 
