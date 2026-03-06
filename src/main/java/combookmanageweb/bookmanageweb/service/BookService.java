@@ -37,8 +37,14 @@ public class BookService {
         return bookMapper.findAll();
     }
 
+    // 허용된 도서 정보 조회
     public List<Book> getAvailableBooks() {
         return bookMapper.getAvailableBooks();
+    }
+
+    // 로그인 한 사용자의 대출 도서 목록 조회
+    public List<Book> getRentedBooks(String userId) {
+        return bookMapper.getRentedBooks(userId);
     }
 
     // 3. 단건 도서 검색 및 가드 클로즈 (기존 getBookOrThrow 역할)

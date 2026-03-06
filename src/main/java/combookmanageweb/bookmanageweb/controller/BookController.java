@@ -37,7 +37,21 @@ public class BookController {
     public Book getBook(@PathVariable String id) {
         return bookService.getBookById(id);
     }
+    // 로그인한 유저의 대출 도서 목록 조회
+    @GetMapping("/show")
+    public List<Book> getRentedBooks(HttpSession session){
+        User loginUser = (User) session.getAttribute("loginUser");
 
+        //로그인 여부 확인
+        if (loginUser == null) {
+            throw new IllegalArgumentException("로그인이 필요합니다.");
+        }
+
+        String userId = loginUser.getId();
+        return bookService.getRentedBooks(userId);
+    }
+    
+    // 도서 제목으로 검색
     @GetMapping("/title/{title}")
     public List<Book> getBookByTitle(@PathVariable String title) {return bookService.getBookByTitle(title);}
 

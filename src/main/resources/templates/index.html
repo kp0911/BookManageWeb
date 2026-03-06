@@ -49,6 +49,26 @@
 
             <!-- Book Management Section -->
             <section id="book-section">
+                <!-- Rented Books Section (Visible only to logged-in users) -->
+                <section id="rented-book-section" th:if="${user != null}">
+                    <h2>내 대출 도서</h2>
+                    <button onclick="loadRentedBooks()">목록 새로고침</button>
+                    <table id="rentedBookTable">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>제목</th>
+                            <th>반납 예정일</th>
+                            <th>관리</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Rented book rows will be populated here -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <hr th:if="${user != null}">
                 <h2>도서 관리</h2>
                 <div class="form-group">
                     <input type="text" id="searchTitle" placeholder="도서 제목 검색">

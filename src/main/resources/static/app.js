@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
     loadBooks();
+    loadRentedBooks();
+
 });
 
 // User Management
@@ -127,9 +129,40 @@ function renderBooks(books) {
     });
 }
 
-async function rentBook(bookId) {
-    // userId는 서버 세션에서 가져오므로 클라이언트에서 보낼 필요가 없습니다.
+async function loadRentedBooks() {
+    //if (!currentUserId) return;
+    console.log("123");
+    try {
+        const response = await fetch(`/api/books/show`);
+        const books = await response.json();
+        const tableBody = document.querySelector('#rentedBookTable tbody');
+        if (tableBody) {
+            tableBody.innerHTML = '';
+            
+            if (books.length === 0) {
+                tableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">대출 중인 도서가 없습니다.</td></tr>';
+                return;
+            }
 
+            books.forEach(book => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${book.id}</td>
+                    <td>${book.title}</td>
+                    <td>${book.returnDate}</td>
+                    <td>
+                        <button class="action-btn return-btn" onclick="returnBook('${book.id}')">반납</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    } catch (error) {
+        console.error('Error loading rented books:', error);
+    }
+}
+
+async function rentBook(bookId) {
     try {
         const response = await fetch(`/api/books/${bookId}/checkout`, {
             method: 'POST'
@@ -137,6 +170,7 @@ async function rentBook(bookId) {
         if (response.ok) {
             alert('대출 성공!');
             loadBooks();
+            loadRentedBooks();
         } else {
             const errorText = await response.text();
             alert('대출 실패: ' + errorText);
@@ -155,6 +189,7 @@ async function returnBook(bookId) {
         if (response.ok) {
             alert('반납 성공!');
             loadBooks();
+            loadRentedBooks();
         } else {
             const errorText = await response.text();
             alert('반납 실패: ' + errorText);

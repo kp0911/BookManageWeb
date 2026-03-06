@@ -15,9 +15,13 @@ public interface BookMapper {
     @Select("SELECT * FROM BOOK")
     List<Book> findAll();
 
+    // 허용된 도서 정보 조회
     @Select("SELECT id, title, category, rentable, rented FROM BOOK")
     List<Book> getAvailableBooks();
 
+    //로그인 한 사용자의 대출 도서 목록 조회
+    @Select("SELECT * FROM BOOK WHERE userId = #{userId}")
+    List<Book> getRentedBooks(String userId);
 
     // 2. ID로 단건 도서 조회 (기존 getBookOrThrow의 검색 역할)
     @Select("SELECT * FROM BOOK WHERE id = #{id}")
