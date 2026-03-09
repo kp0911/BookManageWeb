@@ -3,13 +3,15 @@ package combookmanageweb.bookmanageweb.controller; // 본인 패키지에 맞게
 import combookmanageweb.bookmanageweb.dto.Book;
 import combookmanageweb.bookmanageweb.dto.User;
 import combookmanageweb.bookmanageweb.service.BookService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name = "도서 관리 API", description = "도서 대출, 반납 및 조회 관련 API입니다.")
 @RestController // JSON 형태로 데이터를 반환하는 REST API 컨트롤러
 @RequestMapping("/api/books") // 이 컨트롤러의 기본 URL 주소를 설정
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class BookController {
 
     // 1. 전체 도서 조회 API (기존 1번 메뉴)
     // 브라우저에서 http://localhost:8080/api/books 접속 시 실행
+    @Operation(summary = "도서 전체 조회", description = "등록된 모든 도서의 목록을 가져옵니다.")
     @GetMapping
     public List<Book> getAllBooks(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
