@@ -99,8 +99,8 @@ function renderBooks(books) {
     bookTableBody.innerHTML = '';
     books.forEach(book => {
         const row = document.createElement('tr');
-        const statusClass = book.rented ? 'status-rented' : 'status-available';
-        const statusText = book.rented ? '대출 중' : '대출 가능';
+        const statusClass = book.rentable ? (book.rented ? 'status-rented' : 'status-available') : 'status-rented';
+        const statusText = book.rentable ? (book.rented ? '대출 중' : '대출 가능') : '대출 불가능';
 
         let rowHTML = `
             <td>${book.id}</td>
